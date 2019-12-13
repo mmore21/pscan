@@ -17,4 +17,4 @@ make clean
 </pre>
 
 ## License
-pscan is available under the [MIT License](https://github.com/mmore21/blob/master/LICENSE).
+pscan is available under the [MIT License](https://github.com/mmore21/pscan/blob/master/LICENSE).

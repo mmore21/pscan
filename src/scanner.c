@@ -5,7 +5,11 @@
 
 #include "scanner.h"
 
-struct sockaddr_in createAddress()
+struct Socket
+{
+}
+
+struct sockaddr_in createLocalAddress()
 {
     // create an address for the socket
     struct sockaddr_in address;
@@ -15,12 +19,29 @@ struct sockaddr_in createAddress()
     return address;
 }
 
-void scan()
+struct sockaddr_in createRemoteAddress(char *ip)
+{
+    // create an address for the socket
+    struct sockaddr_in address;
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = inet_addr(ip);
+
+    return address;
+}
+
+void scan(char *ip = "", bool scanRemoteIp = false)
 {
     // create a socket
     int network_socket;
     // create a socket address
-    struct sockaddr_in address = createAddress();
+    if (scanRemoteIp)
+    {
+        struct sockaddr_in address = createRemoteAddress(ip);
+    }
+    else
+    {
+        struct sockaddr_in address = createLocalAddress();
+    }
 
     // loop over range of all tcp ports
     for (int i = 1; i < 65535; i++)
@@ -40,9 +61,20 @@ void scan()
     }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    scan();
+    if (argc == 2)
+    {
+        scan(argv[1]);
+    }
+    else if (argc > 2)
+    {
+        // TODO: Error-handling for when too many parameters were passed.
+    }
+    else
+    {
+        scan();
+    }
 
     return 0;
 }

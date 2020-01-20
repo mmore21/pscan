@@ -2,12 +2,9 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "scanner.h"
-
-struct Socket
-{
-}
 
 struct sockaddr_in createLocalAddress()
 {
@@ -29,18 +26,19 @@ struct sockaddr_in createRemoteAddress(char *ip)
     return address;
 }
 
-void scan(char *ip = "", bool scanRemoteIp = false)
+void scan(char *ip, int scanRemoteIp)
 {
     // create a socket
     int network_socket;
+    struct sockaddr_in address;
     // create a socket address
     if (scanRemoteIp)
     {
-        struct sockaddr_in address = createRemoteAddress(ip);
+        address = createRemoteAddress(ip);
     }
     else
     {
-        struct sockaddr_in address = createLocalAddress();
+        address = createLocalAddress();
     }
 
     // loop over range of all tcp ports
@@ -65,15 +63,15 @@ int main(int argc, char *argv[])
 {
     if (argc == 2)
     {
-        scan(argv[1]);
+        scan(argv[1], 1);
     }
     else if (argc > 2)
     {
-        // TODO: Error-handling for when too many parameters were passed.
+        fprintf(stderr, "Too many arguments passed.");
     }
     else
     {
-        scan();
+        scan("", 0);
     }
 
     return 0;

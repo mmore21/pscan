@@ -1,8 +1,10 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
-struct sockaddr_in createAddress();
+struct sockaddr_in createRemoteAddress(char *ip);
 
-void scan();
+struct sockaddr_in createLocalAddress();
+
+void scan(char *ip, int scanRemoteIp);
 
 #endif

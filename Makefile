@@ -1,14 +1,14 @@
 HEADERS = src/scanner.h
-OBJECTS = src/scanner.o
+OBJECTS = src/scanner.o src/main.o
 
-default: src/scanner
+default: scanner
 
 %.o: %.c $(HEADERS)
 	gcc -c $< -o $@
 
-program: $(OBJECTS)
+scanner: $(OBJECTS)
 	gcc $(OBJECTS) -o $@
 
 clean:
 	-rm -f $(OBJECTS)
-	-rm -f src/scanner
+	-rm -f scanner

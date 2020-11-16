@@ -18,7 +18,7 @@ make
 make clean
 </pre>
 
-You may also provide a parameter to perform a port scan on any IP address:
+You may also provide a parameter to perform a port scan on an IP address:
 
 <pre>
 ./scanner 192.168.1.1
@@ -27,3 +27,4 @@ You may also provide a parameter to perform a port scan on any IP address:
 ## License
 
 pscan is available under the [MIT License](https://github.com/mmore21/pscan/blob/master/LICENSE).
+

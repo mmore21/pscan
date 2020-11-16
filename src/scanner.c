@@ -6,55 +6,49 @@
 
 #include "scanner.h"
 
-struct sockaddr_in createLocalAddress()
+struct sockaddr_in createAddress(char *ip)
 {
-    // create an address for the socket
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
+  // Create an address for the socket
+  struct sockaddr_in address;
+  address.sin_family = AF_INET;
+
+  // Set local vs remote address whether ip is provided
+  if (ip && !ip[0])
+  {
     address.sin_addr.s_addr = INADDR_ANY;
-
-    return address;
-}
-
-struct sockaddr_in createRemoteAddress(char *ip)
-{
-    // create an address for the socket
-    struct sockaddr_in address;
-    address.sin_family = AF_INET;
+  }
+  else
+  {
     address.sin_addr.s_addr = inet_addr(ip);
+  }
 
-    return address;
+  return address;
 }
 
-void scan(char *ip, int scanRemoteIp)
+void scan(char *ip)
 {
-    // create a socket
+    // Create a socket
     int network_socket;
     struct sockaddr_in address;
-    // create a socket address
-    if (scanRemoteIp)
-    {
-        address = createRemoteAddress(ip);
-    }
-    else
-    {
-        address = createLocalAddress();
-    }
 
-    // loop over range of all tcp ports
-    for (int i = 1; i < 65535; i++)
+    // Create a socket address
+    address = createAddress(ip);
+    
+    // Loop over range of all tcp ports
+    for (int port = 1; port < 65535; port++)
     {
         network_socket = socket(AF_INET, SOCK_STREAM, 0);
-        address.sin_port = htons(i);
+        address.sin_port = htons(port);
         
-        // attempt to establish connection to port
+        // Attempt to establish connection to port
         int connection_status = connect(network_socket, (struct sockaddr*) &address, sizeof(address));
 
         if (connection_status == 0)
         {
-            printf("tcp\t%d\t open\n", i);
+            printf("tcp\t%d\t open\n", port);
         }
 
         close(network_socket);
     }
 }
+

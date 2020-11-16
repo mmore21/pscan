@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     if (argc == 2)
     {
-        scan(argv[1], 1);
+        scan(argv[1]);
     }
     else if (argc > 2)
     {
@@ -14,8 +14,9 @@ int main(int argc, char *argv[])
     }
     else
     {
-        scan("", 0);
+        scan("");
     }
 
     return 0;
 }
+

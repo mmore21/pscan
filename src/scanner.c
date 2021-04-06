@@ -1,12 +1,6 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
 #include "scanner.h"
 
-struct sockaddr_in createAddress(char *ip)
+struct sockaddr_in create_address(char *ip)
 {
     // Create an address for the socket
     struct sockaddr_in address;
@@ -32,18 +26,19 @@ void scan(char *ip)
     struct sockaddr_in address;
 
     // Create a socket address
-    address = createAddress(ip);
+    address = create_address(ip);
 
     // Loop over range of all tcp ports
-    for (int port = 1; port < 65535; port++)
+    for (int port = 1; port < MAX_PORT; port++)
     {
         network_socket = socket(AF_INET, SOCK_STREAM, 0);
         address.sin_port = htons(port);
 
         // Attempt to establish connection to port
-        int connection_status = connect(network_socket, (struct sockaddr*) &address, sizeof(address));
+        int status = connect(network_socket, (struct sockaddr*) &address, sizeof(address));
 
-        if (connection_status == 0)
+        // Socket successfully connected
+        if (status == 0)
         {
             printf("tcp\t%d\t open\n", port);
         }

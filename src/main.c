@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdlib.h>
 
 #include "scanner.h"
 
@@ -11,12 +11,13 @@ int main(int argc, char *argv[])
     else if (argc > 2)
     {
         fprintf(stderr, "Too many arguments passed.");
+        exit(1);
     }
     else
     {
         scan("");
     }
 
-    return 0;
+    exit(0);
 }
 
